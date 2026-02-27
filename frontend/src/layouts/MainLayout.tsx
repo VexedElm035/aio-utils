@@ -48,7 +48,7 @@ const MainLayout = () => {
                 `}>
                         {/* Logo / Brand */}
                         <div className="retro-titlebar text-center mb-2">
-                            <span className="font-retro text-lg tracking-wider">AIO Utils</span>
+                            <span className="font-retro text-lg tracking-wider text-(--text)">AIO Utils</span>
                         </div>
 
                         <Navbar onNavigate={() => setMobileMenuOpen(false)} />

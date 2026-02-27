@@ -19,7 +19,7 @@ const Header = ({ headerText }: { headerText: string }) => {
           </Link>
         )}
       </div>
-      <h2 className='font-retro text-lg md:text-xl text-white m-0 text-center'>
+      <h2 className='font-retro text-lg md:text-xl m-0 text-center text-(--text)'>
         {headerText}
       </h2>
       <div className="w-20" />

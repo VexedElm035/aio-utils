@@ -120,7 +120,7 @@
 
 /* Title bar */
 .retro-titlebar {
-  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  background: linear-gradient(90deg, var(--surface-raised), var(--surface-raised));
   color: #ffffff;
   padding: 4px 10px;
   font-family: "VT323", monospace;
@@ -130,7 +130,7 @@
 }
 
 .dark .retro-titlebar {
-  background: linear-gradient(90deg, var(--accent), #5588aa);
+  background: linear-gradient(90deg, var(--surface-raised), var(--surface-raised));
 }
 
 /* Classic retro button */
@@ -448,7 +448,7 @@ button {
 
 /* Title bar → clean header */
 .theme-modern .retro-titlebar {
-  background: var(--accent);
+  background: var(--surface-raised);
   border-radius: var(--modern-radius-sm);
   font-family: "Inter", -apple-system, sans-serif;
   font-size: 0.9rem;
@@ -458,7 +458,7 @@ button {
 }
 
 .theme-modern.dark .retro-titlebar {
-  background: var(--accent);
+  background: var(--surface-raised);
 }
 
 /* Button → modern rounded button */
