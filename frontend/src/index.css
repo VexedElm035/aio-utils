@@ -12,6 +12,24 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Fondo principal y cuerpo de ventanas */
+  --platinum-bg: #cccccc; 
+  
+  /* Luces y sombras para el efecto 3D */
+  --platinum-light: #ffffff;
+  /* Gris intermedio para bordes internos */
+  --platinum-border-inner: #999999;
+  /* Gris oscuro para bordes externos y texto */
+  --platinum-border-dark: #666666;
+  --platinum-shadow: #333333;
+
+  /* Color de acento (Selección clásica) */
+  --mac-accent-blue: #336699;
+  --mac-selection-bg: #99bbff;
+
+  /* Texto */
+  --mac-text: #000000;
 }
 
 a {
@@ -37,23 +55,23 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  /* border-radius: 8px; */
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+/* button:hover {
   border-color: #646cff;
-}
-button:focus,
+} */
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -64,7 +82,7 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    /* background-color: #f9f9f9; */
   }
 }
 
@@ -77,6 +95,6 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #000000;
+    /* background-color: #000000; */
   }
 }

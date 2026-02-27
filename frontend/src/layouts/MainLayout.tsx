@@ -15,9 +15,9 @@ const MainLayout = () => {
                 <nav className='bg-white border-black border-r-2 flex flex-col py-5 px-2 items-start'>
                     <Navbar />
                 </nav>
-                <section className='bg-white pb-10 px-10 w-full'>
+                <section className='bg-(--platinum-bg) pb-10 px-10 w-full'>
                     <Header headerText={currentRoute} />
-                    <div className='bg-gray-100 rounded-xl p-5 shadow-xl w-full col-span-full grid place-items-center grid-cols-3'>
+                    <div className='bg-(--platinum-light) rounded-xl p-5 shadow-xl w-full col-span-full grid place-items-center grid-cols-3'>
                       <Outlet />
                     </div>
                 </section>

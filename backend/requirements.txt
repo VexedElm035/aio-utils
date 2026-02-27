@@ -1,2 +1,7 @@
 uvicorn
 fastapi
+pydantic-settings
+python-multipart
+pymupdf
+pdf2docx
+ocrmypdf
