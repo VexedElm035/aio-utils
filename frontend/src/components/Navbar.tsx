@@ -37,7 +37,7 @@ const Navbar = ({ onNavigate }: NavbarProps) => {
               }
             `}
           >
-            <Icon className="text-base flex-shrink-0" />
+            <Icon className="text-base shrink-0" />
             <span>{label}</span>
           </Link>
         );

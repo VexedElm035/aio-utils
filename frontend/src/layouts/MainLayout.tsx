@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { ThemeProvider } from '../contexts/ThemeProvider';
 import Header from '../components/Header';
-import ThemeToggle from '../components/ThemeToggle';
 import { useLocation } from 'react-router-dom';
 import { Routes } from '../routes/Routes';
 import { PiListBold, PiXBold } from 'react-icons/pi';
@@ -39,7 +38,7 @@ const MainLayout = () => {
 
                 {/* ── Sidebar / Mobile Drawer ── */}
                 <nav className={`
-                    fixed md:static z-50 top-0 left-0 h-full w-[220px]
+                    fixed md:static z-50 top-0 left-0 h-full w-55
                     bg-nav-bg retro-raised flex flex-col py-4 px-2 gap-2
                     transform transition-transform duration-200 ease-in-out
                     ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}

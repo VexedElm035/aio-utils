@@ -375,7 +375,7 @@ const PdfView = () => {
 
         {/* ── Right-side Drawer ── */}
         <div className={`
-          fixed z-50 top-0 right-0 h-full w-[85vw] max-w-[360px]
+          fixed z-50 top-0 right-0 h-full w-[85vw] max-w-90
           bg-bg-window retro-raised flex flex-col
           transform transition-transform duration-200 ease-in-out
           ${previewDrawerOpen ? 'translate-x-0' : 'translate-x-full'}
