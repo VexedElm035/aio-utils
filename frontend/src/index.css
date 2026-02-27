@@ -64,7 +64,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  
+
 }
 
 /* ═══════════════════════════════════════
@@ -321,3 +321,293 @@ button {
 /* md: 768px+ = tablet */
 /* lg: 1024px+ = desktop */
 /* xl: 1280px+ = large desktop */
+
+/* ═══════════════════════════════════════════════════════
+   ██  MODERN THEME OVERRIDES  ██
+   When .theme-modern is on <html>, all retro utility
+   classes morph into a clean, rounded, shadow-based
+   modern design.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Modern Light Palette ─── */
+.theme-modern {
+  --bg: #f5f5f7;
+  --bg-window: #ffffff;
+  --surface-raised: #f0f0f2;
+  --border-light: #e5e5ea;
+  --border-dark: #d1d1d6;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --text: #1d1d1f;
+  --text-muted: #86868b;
+
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --selection: #e8f0fe;
+  --error: #ff3b30;
+
+  --nav-bg: #ffffff;
+  --nav-hover: #f5f5f7;
+  --input-bg: #ffffff;
+  --card-bg: #ffffff;
+
+  font-family: "Inter", "Helvetica Neue", -apple-system, sans-serif;
+
+  --modern-radius: 12px;
+  --modern-radius-sm: 8px;
+  --modern-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --modern-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --modern-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --modern-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Modern Dark Palette ─── */
+.theme-modern.dark {
+  --bg: #0a0a0a;
+  --bg-window: #1c1c1e;
+  --surface-raised: #2c2c2e;
+  --border-light: #38383a;
+  --border-dark: #2c2c2e;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --text: #f5f5f7;
+  --text-muted: #98989d;
+
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --selection: #1a3a5c;
+  --error: #ff453a;
+
+  --nav-bg: #1c1c1e;
+  --nav-hover: #2c2c2e;
+  --input-bg: #2c2c2e;
+  --card-bg: #1c1c1e;
+
+  --modern-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --modern-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --modern-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ─── Modern base elements ─── */
+.theme-modern h1,
+.theme-modern h2,
+.theme-modern h3 {
+  font-family: "Inter", -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.theme-modern h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.theme-modern h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.theme-modern h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.theme-modern button {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.875rem;
+}
+
+/* ─── Modern utility class overrides ─── */
+
+/* Raised → soft card */
+.theme-modern .retro-raised {
+  border: 1px solid var(--border-light);
+  border-radius: var(--modern-radius);
+  background-color: var(--card-bg);
+  box-shadow: var(--modern-shadow);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-raised:hover {
+  box-shadow: var(--modern-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Inset → subtle recessed */
+.theme-modern .retro-inset {
+  border: 1px solid var(--border-dark);
+  border-radius: var(--modern-radius-sm);
+  background-color: var(--input-bg);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Window → clean card */
+.theme-modern .retro-window {
+  border: 1px solid var(--border-light);
+  border-radius: var(--modern-radius);
+  background-color: var(--bg-window);
+  box-shadow: var(--modern-shadow-md);
+}
+
+/* Title bar → clean header */
+.theme-modern .retro-titlebar {
+  background: var(--accent);
+  border-radius: var(--modern-radius-sm);
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  padding: 8px 14px;
+}
+
+.theme-modern.dark .retro-titlebar {
+  background: var(--accent);
+}
+
+/* Button → modern rounded button */
+.theme-modern .retro-btn {
+  border: 1px solid var(--border-light);
+  border-radius: var(--modern-radius-sm);
+  background-color: var(--surface-raised);
+  color: var(--text);
+  padding: 8px 16px;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: var(--modern-shadow);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-btn:hover {
+  background-color: var(--nav-hover);
+  box-shadow: var(--modern-shadow-md);
+}
+
+.theme-modern .retro-btn:active,
+.theme-modern .retro-btn.active {
+  border-color: var(--accent);
+  background-color: var(--selection);
+  box-shadow: none;
+  padding: 8px 16px;
+  transform: scale(0.98);
+}
+
+/* Accent button → filled rounded */
+.theme-modern .retro-btn-accent {
+  border: none;
+  border-radius: var(--modern-radius-sm);
+  background-color: var(--accent);
+  color: #ffffff;
+  padding: 8px 20px;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: var(--modern-shadow);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-btn-accent:hover {
+  background-color: var(--accent-hover);
+  box-shadow: var(--modern-shadow-md);
+  transform: translateY(-1px);
+}
+
+.theme-modern .retro-btn-accent:active {
+  border-color: transparent;
+  padding: 8px 20px;
+  transform: scale(0.98);
+}
+
+/* Danger button → modern red */
+.theme-modern .retro-btn-danger {
+  border: none;
+  border-radius: var(--modern-radius-sm);
+  background-color: var(--error);
+  color: #ffffff;
+  padding: 8px 16px;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: var(--modern-shadow);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-btn-danger:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--modern-shadow-md);
+}
+
+.theme-modern .retro-btn-danger:active {
+  border-color: transparent;
+  transform: scale(0.98);
+}
+
+/* Radio card → modern selectable card */
+.theme-modern .retro-radio-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--modern-radius);
+  background-color: var(--card-bg);
+  box-shadow: var(--modern-shadow);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-radio-card:hover {
+  box-shadow: var(--modern-shadow-md);
+  border-color: var(--accent);
+  background-color: var(--card-bg);
+}
+
+.theme-modern .retro-radio-card.selected {
+  border-color: var(--accent);
+  background-color: var(--selection);
+  box-shadow: 0 0 0 1px var(--accent), var(--modern-shadow);
+}
+
+/* Drop zone → modern dashed */
+.theme-modern .retro-dropzone {
+  border: 2px dashed var(--border-dark);
+  border-radius: var(--modern-radius);
+  background-color: var(--input-bg);
+  transition: var(--modern-transition);
+}
+
+.theme-modern .retro-dropzone:hover {
+  border-color: var(--accent);
+  background-color: var(--selection);
+}
+
+/* ─── Modern scrollbar ─── */
+.theme-modern::-webkit-scrollbar {
+  width: 8px;
+}
+
+.theme-modern::-webkit-scrollbar-track {
+  background: transparent;
+  border-left: none;
+}
+
+.theme-modern::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+  border: none;
+}
+
+.theme-modern::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.theme-modern *::-webkit-scrollbar {
+  width: 8px;
+}
+
+.theme-modern *::-webkit-scrollbar-track {
+  background: transparent;
+  border-left: none;
+}
+
+.theme-modern *::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+  border: none;
+}
+
+.theme-modern *::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
