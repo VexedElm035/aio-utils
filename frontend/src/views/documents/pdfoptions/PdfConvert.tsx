@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { PdfOutletContext } from './PdfView'
@@ -7,6 +7,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000
 
 type ConvertTarget = 'docx' | 'png' | 'jpg'
 type DownloadOption = 'zip' | 'separate'
+
+const targetOptions = [
+  { value: 'docx' as const, label: 'DOCX' },
+  { value: 'png' as const, label: 'PNG' },
+  { value: 'jpg' as const, label: 'JPG' },
+];
 
 const PdfConvert = () => {
   const { pdfItems } = useOutletContext<PdfOutletContext>()
@@ -130,70 +136,70 @@ const PdfConvert = () => {
   }
 
   return (
-    <div className='col-span-2'>
-      <div>
-        <p>Convertir a:</p>
-
-        <label htmlFor='convert-docx'>DOCX</label>
-        <input
-          id='convert-docx'
-          type='radio'
-          name='convert-target'
-          value='docx'
-          checked={target === 'docx'}
-          onChange={() => setTarget('docx')}
-        />
-
-        <label htmlFor='convert-png'>PNG</label>
-        <input
-          id='convert-png'
-          type='radio'
-          name='convert-target'
-          value='png'
-          checked={target === 'png'}
-          onChange={() => setTarget('png')}
-        />
-
-        <label htmlFor='convert-jpg'>JPG</label>
-        <input
-          id='convert-jpg'
-          type='radio'
-          name='convert-target'
-          value='jpg'
-          checked={target === 'jpg'}
-          onChange={() => setTarget('jpg')}
-        />
-      </div>
-
-      {target !== 'docx' && pdfItems.length > 0 && (
-        <div>
-          <p>Descarga:</p>
-          <label htmlFor='download-zip'> ZIP </label>
-          <input
-            id='download-zip'
-            type='radio'
-            name='download-option'
-            value='zip'
-            checked={downloadOption === 'zip'}
-            onChange={() => setDownloadOption('zip')}
-          />
-          <label htmlFor='download-separate'> Por separado</label>
-          <input
-            id='download-separate'
-            type='radio'
-            name='download-option'
-            value='separate'
-            checked={downloadOption === 'separate'}
-            onChange={() => setDownloadOption('separate')}
-          />
+    <div className='col-span-full w-full'>
+      <div className='retro-window p-4 flex flex-col gap-4'>
+        {/* Target format */}
+        <div className='flex flex-wrap items-center gap-3'>
+          <span className='text-sm font-ui text-text-muted'>Convertir a:</span>
+          {targetOptions.map(({ value, label }) => (
+            <label
+              key={value}
+              className={`retro-radio-card px-4 py-2 text-sm font-ui cursor-pointer text-text
+                ${target === value ? 'selected' : ''}`}
+            >
+              {label}
+              <input
+                type='radio'
+                name='convert-target'
+                value={value}
+                className='hidden'
+                checked={target === value}
+                onChange={() => setTarget(value)}
+              />
+            </label>
+          ))}
         </div>
-      )}
 
-      <button type='button' onClick={handleConvert} disabled={isLoading}>
-        {isLoading ? 'Convirtiendo...' : 'Convertir'}
-      </button>
+        {/* Download option for images */}
+        {target !== 'docx' && pdfItems.length > 0 && (
+          <div className='retro-inset p-3 flex flex-wrap items-center gap-3 text-sm font-ui'>
+            <span className='text-text-muted'>Descarga:</span>
+            <label className='flex items-center gap-1 cursor-pointer text-text'>
+              <input
+                type='radio'
+                name='download-option'
+                value='zip'
+                checked={downloadOption === 'zip'}
+                onChange={() => setDownloadOption('zip')}
+                className='accent-accent'
+              />
+              ZIP
+            </label>
+            <label className='flex items-center gap-1 cursor-pointer text-text'>
+              <input
+                type='radio'
+                name='download-option'
+                value='separate'
+                checked={downloadOption === 'separate'}
+                onChange={() => setDownloadOption('separate')}
+                className='accent-accent'
+              />
+              Por separado
+            </label>
+          </div>
+        )}
 
-      {error && <p>{error}</p>}
+        <button
+          className='retro-btn-accent px-6 py-2 self-center'
+          type='button'
+          onClick={handleConvert}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Convirtiendo...' : 'Convertir'}
+        </button>
+
+        {error && <p className='text-sm text-error font-ui'>{error}</p>}
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { PdfOutletContext } from './PdfView'
@@ -65,35 +65,51 @@ const PdfOcr = () => {
   }
 
   return (
-    <div>
-      <div>
-        <p>OCR:</p>
-        <label htmlFor='ocr-apply'>Convertir a texto seleccionable</label>
-        <input
-          id='ocr-apply'
-          type='radio'
-          name='ocr-mode'
-          value='apply'
-          checked={mode === 'apply'}
-          onChange={() => setMode('apply')}
-        />
+    <div className='col-span-full w-full'>
+      <div className='retro-window p-4 flex flex-col gap-4'>
+        <div className='flex flex-wrap items-center gap-3'>
+          <span className='text-sm font-ui text-text-muted'>OCR:</span>
+          <label
+            className={`retro-radio-card px-4 py-2 text-sm font-ui cursor-pointer text-text
+              ${mode === 'apply' ? 'selected' : ''}`}
+          >
+            Texto seleccionable
+            <input
+              type='radio'
+              name='ocr-mode'
+              value='apply'
+              className='hidden'
+              checked={mode === 'apply'}
+              onChange={() => setMode('apply')}
+            />
+          </label>
+          <label
+            className={`retro-radio-card px-4 py-2 text-sm font-ui cursor-pointer text-text
+              ${mode === 'remove' ? 'selected' : ''}`}
+          >
+            Quitar OCR
+            <input
+              type='radio'
+              name='ocr-mode'
+              value='remove'
+              className='hidden'
+              checked={mode === 'remove'}
+              onChange={() => setMode('remove')}
+            />
+          </label>
+        </div>
 
-        <label htmlFor='ocr-remove'>Quitar OCR</label>
-        <input
-          id='ocr-remove'
-          type='radio'
-          name='ocr-mode'
-          value='remove'
-          checked={mode === 'remove'}
-          onChange={() => setMode('remove')}
-        />
+        <button
+          className='retro-btn-accent px-6 py-2 self-center'
+          type='button'
+          onClick={handleOcr}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Procesando...' : 'Aplicar'}
+        </button>
+
+        {error && <p className='text-sm text-error font-ui'>{error}</p>}
       </div>
-
-      <button type='button' onClick={handleOcr} disabled={isLoading}>
-        {isLoading ? 'Procesando...' : 'Aplicar'}
-      </button>
-
-      {error && <p>{error}</p>}
     </div>
   )
 }

@@ -39,5 +39,8 @@ export const Routes: Route[] = [
   {
     path: '/images/options',
     name: 'Opciones de Imágenes'
-  }
+  },
+  { path: '/settings',
+    name: 'Ajustes' 
+  },
 ];

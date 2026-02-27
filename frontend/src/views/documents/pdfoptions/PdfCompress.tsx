@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import type { PdfOutletContext } from './PdfView'
@@ -11,6 +11,13 @@ const PdfCompress = () => {
   const [downloadOption, setDownloadOption] = useState<'separate' | 'zip'>('separate')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const presetOptions = [
+    { value: 'native' as const, label: 'Nativo', desc: 'Sin pérdida de calidad' },
+    { value: 'quality' as const, label: 'Calidad', desc: 'Alta calidad' },
+    { value: 'balanced' as const, label: 'Equilibrada', desc: 'Balance ideal' },
+    { value: 'max' as const, label: 'Máxima', desc: 'Menor peso' },
+  ];
 
   const handleCompress = async () => {
     if (pdfItems.length === 0) {
@@ -90,107 +97,66 @@ const PdfCompress = () => {
   }
 
   return (
-    <div className='col-span-2 flex flex-col gap-4 w-full h-full'>
-      <div className='bg-red-500 w-full h-full flex flex-col items-center justify-center'>
-        <h3 className='text-lg font-semibold'>Configuracion de Compresion:</h3>
-        <div className='bg-blue-300 flex flex-row w-full gap-4 p-4 justify-center'>
+    <div className='col-span-full flex flex-col gap-4 w-full'>
+      <div className='retro-window p-4 flex flex-col items-center gap-4'>
+        <h3 className='font-retro text-lg text-text'>Configuración de Compresión</h3>
 
-          <label 
-            htmlFor='preset-native'
-            className={`bg-white rounded-xl shadow-md w-35 h-24 flex flex-col items-center justify-center cursor-pointer transition-all text-center p-2 ${preset === 'native' ? 'ring-2 ring-blue-500 bg-blue-50' : ''}`}
-          >
-            <span className="font-semibold">Nativo</span>
-            <input
-              id='preset-native'
-              type='radio'
-              name='compression-preset'
-              value='native'
-              className='hidden'
-              checked={preset === 'native'}
-              onChange={() => setPreset('native')}
-            />
-            <p className='text-xs mt-1'>Sin perdida de calidad</p>
-          </label>
-
-          <label 
-            htmlFor='preset-quality'
-            className={`bg-white rounded-xl shadow-md w-35 h-24 flex flex-col items-center justify-center cursor-pointer transition-all text-center p-2 ${preset === 'quality' ? 'ring-2 ring-blue-500 bg-blue-50' : ''}`}
-          >
-            <span className="font-semibold">Calidad</span>
-            <input
-              id='preset-quality'
-              type='radio'
-              name='compression-preset'
-              value='quality'
-              className='hidden'
-              checked={preset === 'quality'}
-              onChange={() => setPreset('quality')}
-            />
-            <p className='text-xs mt-1'>Alta calidad</p>
-          </label>
-
-          <label 
-            htmlFor='preset-balanced'
-            className={`bg-white rounded-xl shadow-md w-35 h-24 flex flex-col items-center justify-center cursor-pointer transition-all text-center p-2 ${preset === 'balanced' ? 'ring-2 ring-blue-500 bg-blue-50' : ''}`}
-          >
-            <span className="font-semibold">Equilibrada</span>
-            <input
-              id='preset-balanced'
-              type='radio'
-              name='compression-preset'
-              value='balanced'
-              className='hidden'
-              checked={preset === 'balanced'}
-              onChange={() => setPreset('balanced')}
-            />
-            <p className='text-xs mt-1'>Balance ideal</p>
-          </label>
-
-          <label 
-            htmlFor='preset-max'
-            className={`bg-white rounded-xl shadow-md w-35 h-24 flex flex-col items-center justify-center cursor-pointer transition-all text-center p-2 ${preset === 'max' ? 'ring-2 ring-blue-500 bg-blue-50' : ''}`}
-          >
-            <span className="font-semibold">Máxima</span>
-            <input
-              id='preset-max'
-              type='radio'
-              name='compression-preset'
-              value='max'
-              className='hidden'
-              checked={preset === 'max'}
-              onChange={() => setPreset('max')}
-            />
-            <p className='text-xs mt-1'>Menor peso</p>
-          </label>
+        {/* Preset cards */}
+        <div className='flex flex-wrap gap-3 justify-center w-full'>
+          {presetOptions.map(({ value, label, desc }) => (
+            <label
+              key={value}
+              htmlFor={`preset-${value}`}
+              className={`retro-radio-card flex flex-col items-center justify-center
+                w-28 h-20 md:w-34 md:h-24 cursor-pointer text-center p-2
+                ${preset === value ? 'selected' : ''}`}
+            >
+              <span className="font-ui font-semibold text-sm text-text">{label}</span>
+              <input
+                id={`preset-${value}`}
+                type='radio'
+                name='compression-preset'
+                value={value}
+                className='hidden'
+                checked={preset === value}
+                onChange={() => setPreset(value)}
+              />
+              <p className='text-xs text-text-muted mt-1'>{desc}</p>
+            </label>
+          ))}
         </div>
 
-          {pdfItems.length > 1 && (
-            <>
-              <p>opciones solo visible si se detectan mas de 1 pdf:</p>
-              <label htmlFor='download-zip'> Descargar comprimidos en ZIP </label>
+        {/* Download option — only for multiple PDFs */}
+        {pdfItems.length > 1 && (
+          <div className='retro-inset p-3 flex flex-wrap items-center gap-3 text-sm font-ui'>
+            <span className='text-text-muted'>Descarga:</span>
+            <label className='flex items-center gap-1 cursor-pointer text-text'>
               <input
-                id='download-zip'
                 type='radio'
                 name='download-option'
                 value='zip'
                 checked={downloadOption === 'zip'}
                 onChange={() => setDownloadOption('zip')}
+                className='accent-accent'
               />
-              <label htmlFor='download-separate'> Descargar por separado</label>
+              ZIP
+            </label>
+            <label className='flex items-center gap-1 cursor-pointer text-text'>
               <input
-                id='download-separate'
                 type='radio'
                 name='download-option'
                 value='separate'
                 checked={downloadOption === 'separate'}
                 onChange={() => setDownloadOption('separate')}
+                className='accent-accent'
               />
-            </>
-          )}
+              Por separado
+            </label>
+          </div>
+        )}
 
-        
         <button
-          className=''
+          className='retro-btn-accent px-6 py-2'
           type='button'
           onClick={handleCompress}
           disabled={isLoading}
@@ -198,7 +164,7 @@ const PdfCompress = () => {
           {isLoading ? 'Comprimiendo...' : 'Comprimir'}
         </button>
 
-        {error && <p className='text-sm text-red-600'>{error}</p>}
+        {error && <p className='text-sm text-error font-ui'>{error}</p>}
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import MainLayout from './layouts/MainLayout';
 import { MainView, DocumentView, AudioView, ImageView, VideoView,
-  PdfIndex, PdfCompress, PdfConvert, PdfOcr, PdfSplit, PdfView
+  PdfIndex, PdfCompress, PdfConvert, PdfOcr, PdfSplit, PdfView, SettingsView
 } from './views';
 
 function App() {
@@ -30,6 +30,9 @@ function App() {
           </Route>
           <Route path='audios'>
             <Route index element={<AudioView />} />
+          </Route>
+          <Route path='settings'>
+            <Route index element={<SettingsView />} />
           </Route>
           <Route path='*' element={<Navigate to='/' replace />} />
         </Route>

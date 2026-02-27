@@ -1,8 +1,8 @@
-import React from 'react'
-
 const VideoView = () => {
   return (
-    <div>VideoView</div>
+    <div className='col-span-full retro-window p-4 text-center'>
+      <p className='font-ui text-text-muted'>Herramientas de Video — Próximamente</p>
+    </div>
   )
 }
 

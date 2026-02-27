@@ -1,24 +1,28 @@
-import React from 'react'
-import { PiArrowLeft } from "react-icons/pi";
+import { PiArrowLeftBold } from "react-icons/pi";
 import { Link } from 'react-router-dom'
 
 const Header = ({ headerText }: { headerText: string }) => {
 
   const prevRoute = window.history.state?.idx > 0 ? -1 : '../';
-  
+  const isHome = window.location.pathname === '/';
+
   return (
-    <div className='col-span-full relative flex w-full items-center justify-center py-3'>
-      {window.location.pathname !== '/' ? (
-        <div className='absolute left-0'>
-          <Link className='flex flex-row items-center gap-1' to={prevRoute as string}>
-            <PiArrowLeft className='text-sm' />
-            <p className='text-xl' >Atrás</p>
+    <div className='retro-titlebar flex items-center justify-between mx-2 mt-2 md:mx-4 md:mt-4'>
+      <div className="w-20">
+        {!isHome && (
+          <Link
+            className='retro-btn text-xs flex items-center gap-1 no-underline px-2 py-1 text-text'
+            to={prevRoute as string}
+          >
+            <PiArrowLeftBold className='text-xs' />
+            <span>Atrás</span>
           </Link>
-        </div>
-      ) : null}
-      <div>
-        <h2 className='text-2xl'>{headerText}</h2>
+        )}
       </div>
+      <h2 className='font-retro text-lg md:text-xl text-white m-0 text-center'>
+        {headerText}
+      </h2>
+      <div className="w-20" />
     </div>
   )
 }

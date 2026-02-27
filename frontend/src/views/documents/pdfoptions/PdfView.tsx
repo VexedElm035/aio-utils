@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { PiTrash } from "react-icons/pi";
+import { PiTrashBold, PiUploadSimpleBold, PiFilesBold, PiXBold } from "react-icons/pi";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000'
 
@@ -16,21 +16,22 @@ export type PdfOutletContext = {
   pdfItems: PdfItem[]
 }
 
-function rotateYValue(i: number){
+function rotateYValue(i: number) {
   return Math.max(-80, -i * 20)
 }
 
-function xSpacing(i: number){
+function xSpacing(i: number) {
   return i * 60 - (i * 30)
 }
 
-function zSpacing(i: number){
+function zSpacing(i: number) {
   return -i * 400 - (i * i * 20)
 }
 
 const PdfView = () => {
   const [pdfItems, setPdfItems] = useState<PdfItem[]>([])
   const [order, setOrder] = useState<number[]>([]);
+  const [previewDrawerOpen, setPreviewDrawerOpen] = useState(false);
 
   useEffect(() => {
     setOrder((prevOrder) => {
@@ -51,7 +52,7 @@ const PdfView = () => {
     setOrder((prevOrder) => {
       const currentPos = prevOrder.indexOf(targetIndex);
       if (currentPos <= 0) return prevOrder;
-      
+
       const newOrder = [...prevOrder];
       newOrder.splice(currentPos, 1);
       newOrder.unshift(targetIndex);
@@ -109,11 +110,11 @@ const PdfView = () => {
         prev.map((current) =>
           current.id === item.id
             ? {
-                ...current,
-                previewUrl: url,
-                isPreviewLoading: false,
-                previewError: null,
-              }
+              ...current,
+              previewUrl: url,
+              isPreviewLoading: false,
+              previewError: null,
+            }
             : current
         )
       )
@@ -123,11 +124,11 @@ const PdfView = () => {
         prev.map((current) =>
           current.id === item.id
             ? {
-                ...current,
-                previewUrl: null,
-                isPreviewLoading: false,
-                previewError: message,
-              }
+              ...current,
+              previewUrl: null,
+              isPreviewLoading: false,
+              previewError: message,
+            }
             : current
         )
       )
@@ -221,52 +222,66 @@ const PdfView = () => {
     [pdfItems]
   )
 
-  return (
-    <>
-      <Outlet context={contextValue} />
-
-      <div className='bg-gray-300'
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
+  /* ─── Preview Panel Content (shared between desktop col and mobile drawer) ─── */
+  const previewPanel = (
+    <div
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      className="flex flex-col h-full retro-raised"
+    >
+      {/* Drop zone */}
+      <div
+        className='retro-dropzone h-full flex flex-col items-center justify-center gap-2 p-4 cursor-pointer'
+        tabIndex={0}
+        onClick={handleOpenPicker}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            handleOpenPicker()
+          }
+        }}
+        role='button'
       >
-        <div className='bg-blue-200'
-          tabIndex={0}
-          onClick={handleOpenPicker}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault()
-              handleOpenPicker()
-            }
-          }}
-          role='button'>
-          <input
-            ref={inputRef}
-            type='file'
-            accept='application/pdf'
-            multiple
-            onChange={handleInputChange}
-            hidden
-            />
-          <div>
-            <p>Arrastra y suelta tus PDFs aqui o haz clic para seleccionar.</p>
-          </div>
-        </div>
+        <input
+          ref={inputRef}
+          type='file'
+          accept='application/pdf'
+          multiple
+          onChange={handleInputChange}
+          hidden
+        />
+        <PiUploadSimpleBold className="text-2xl text-accent" />
+        <p className='text-xs text-text-muted font-ui text-center'>
+          Arrastra y suelta tus PDFs aquí o haz clic para seleccionar.
+        </p>
+      </div>
 
-        {dropError && <p>{dropError}</p>}
+      {dropError && (
+        <p className='text-xs text-error font-ui mt-2 text-center'>{dropError}</p>
+      )}
 
-        <div className='flex h-120 relative items-center justify-center' style={{ perspective: "5000px" }}>
+      {/* File count badge */}
+      {pdfItems.length > 0 && (
+        <p className='text-xs text-text-muted font-ui text-center mt-2'>
+          {pdfItems.length} archivo{pdfItems.length > 1 ? 's' : ''} cargado{pdfItems.length > 1 ? 's' : ''}
+        </p>
+      )}
 
-          {pdfItems.map((item, i) => {
-            const pos = order.indexOf(i);
-            if (pos === -1) return null;
-            const x = xSpacing(pos);
-            const z = zSpacing(pos);
-            const rotateY = rotateYValue(pos);
-            const zIndex = -pos;
+      {/* 3D Carousel */}
+      <div className={`flex flex-1 min-h-80 lg:min-h-120 relative items-center justify-center mt-3 ${pdfItems.length === 0 ? 'hidden' : ''}`}
+        style={{ perspective: "5000px" }}
+      >
+        {pdfItems.map((item, i) => {
+          const pos = order.indexOf(i);
+          if (pos === -1) return null;
+          const x = xSpacing(pos);
+          const z = zSpacing(pos);
+          const rotateY = rotateYValue(pos);
+          const zIndex = -pos;
 
-            return (
-            <div 
-              className='bg-white border border-gray-400 rounded-xl shadow-md w-65 absolute cursor-pointer flex flex-col justify-center items-center p-3 pt-0' 
+          return (
+            <div
+              className='retro-window w-48 lg:w-56 absolute cursor-pointer flex flex-col justify-center items-center p-2 pt-0'
               key={item.id}
               onClick={() => goToIndex(i)}
               style={{
@@ -278,37 +293,110 @@ const PdfView = () => {
                 zIndex: zIndex,
               }}
             >
-              <div className='flex w-55 min-h-80 items-center justify-center'>
-                {item.isPreviewLoading && <p>Generando vista previa...</p>}
+              <div className='flex w-40 lg:w-48 min-h-52 lg:min-h-72 items-center justify-center'>
+                {item.isPreviewLoading && (
+                  <p className='text-xs text-text-muted font-ui'>Generando vista previa...</p>
+                )}
                 {!item.isPreviewLoading && item.previewUrl && (
-                  <img src={item.previewUrl} alt={`Vista previa de ${item.file.name}`} />
+                  <img src={item.previewUrl} alt={`Vista previa de ${item.file.name}`} className="max-w-full" />
                 )}
                 {!item.isPreviewLoading && item.previewError && (
-                  <p>{item.previewError}</p>
+                  <p className='text-xs text-error font-ui'>{item.previewError}</p>
                 )}
               </div>
 
-              <div className='w-full flex flex-col gap-1'>
-                <p className='truncate' title={item.file.name}>{item.file.name}</p>
-                <div className='flex items-center w-full justify-center border-b pb-2'>
-                  <p className='text-sm text-gray-600'>{(item.file.size / 1000000).toFixed(2)} MB</p>
+              <div className='w-full flex flex-col gap-1 mt-1'>
+                <p className='truncate text-xs font-ui text-text' title={item.file.name}>
+                  {item.file.name}
+                </p>
+                <div className='flex items-center w-full justify-center border-b border-border-dark pb-1'>
+                  <p className='text-xs text-text-muted font-ui'>
+                    {(item.file.size / 1000000).toFixed(2)} MB
+                  </p>
                 </div>
-                <button className='bg-red-600 rounded-xl w-25 h-10 flex items-center justify-center mx-auto mt-2'
+                <button
+                  className='retro-btn-danger flex items-center justify-center gap-1 mx-auto mt-1 px-2 py-1 text-xs'
                   type='button'
                   onClick={(event) => {
                     event.stopPropagation()
                     handleRemove(item.id)
                   }}
-                  >
-                    <p className='text-sm text-white flex flex-row items-center gap-1'>
-                      <PiTrash className='inline' />
-                    Eliminar
-                    </p>
+                >
+                  <PiTrashBold className='inline text-xs' />
+                  <span>Eliminar</span>
                 </button>
               </div>
             </div>
-            );
-          })}
+          );
+        })}
+      </div>
+    </div>
+  )
+
+  return (
+    <>
+      {/* ─── Desktop layout: 3-col grid ─── */}
+      <div className='col-span-full w-full hidden lg:grid lg:grid-cols-3 gap-4'>
+        {/* Options area: col-span-2 */}
+        <div className='col-span-2 flex items-center'>
+          <Outlet context={contextValue} />
+        </div>
+
+        {/* Preview panel: col-span-1 */}
+        <div className='col-span-1 overflow-hidden'>
+          {previewPanel}
+        </div>
+      </div>
+
+      {/* ─── Mobile / Tablet layout ─── */}
+      <div className='col-span-full w-full lg:hidden'>
+        {/* Mobile toggle button for preview drawer */}
+        <button
+          className='retro-btn flex items-center gap-2 mb-3'
+          onClick={() => setPreviewDrawerOpen(true)}
+          type='button'
+        >
+          <PiFilesBold className='text-base' />
+          <span className='text-sm font-ui'>
+            Archivos PDF {pdfItems.length > 0 && `(${pdfItems.length})`}
+          </span>
+        </button>
+
+        {/* Options area: full width */}
+        <Outlet context={contextValue} />
+
+        {/* ── Right-side Drawer Overlay ── */}
+        {previewDrawerOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/30"
+            onClick={() => setPreviewDrawerOpen(false)}
+          />
+        )}
+
+        {/* ── Right-side Drawer ── */}
+        <div className={`
+          fixed z-50 top-0 right-0 h-full w-[85vw] max-w-[360px]
+          bg-bg-window retro-raised flex flex-col
+          transform transition-transform duration-200 ease-in-out
+          ${previewDrawerOpen ? 'translate-x-0' : 'translate-x-full'}
+        `}>
+          {/* Drawer header */}
+          <div className="retro-titlebar flex items-center justify-between px-3 py-2">
+            <span className="font-retro text-base">Archivos PDF</span>
+            <button
+              className="retro-btn px-2 py-1 text-xs"
+              onClick={() => setPreviewDrawerOpen(false)}
+              aria-label="Cerrar panel"
+              type='button'
+            >
+              <PiXBold />
+            </button>
+          </div>
+
+          {/* Drawer content */}
+          <div className="flex-1 overflow-auto p-3">
+            {previewPanel}
+          </div>
         </div>
       </div>
     </>
